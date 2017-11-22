@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Dashboard </title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+	<link rel="stylesheet" src="./views/article.css">
+	<style>
+			.block{
+				height:500px;
+			}
+			#mytable tr:hover {
+    			cursor: pointer;
+			}
+			.header {
+		 		font-size: 30px;
+  				font-weight: 200;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='container-fluid pt-md-2'>
+			<div class='row'>
+				<div class='col-md-12 text-center' >
+			 		<h4>List of Contents to verify</h4>
+				</div>
+			</div>
+			<div class='block  table-hover' border='1'>
+				{{#articleList articleLists}}{{ articleLists }}{{/articleList}}
+			</div>
+			<nav aria-label="Page navigation example">
+  				<ul class="pagination">
+    				{{#pagingControls articleLists}}{{ articleLists }}{{/pagingControls}}
+  				</ul>
+			</nav>
+		</div>
+	</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+$('#mytable tr').on("click", function() {
+ var currentrow=	$(this).eq(0).html();
+ var data = $(this).first(0).text();
+ var data1	 = $(this).find('td:first').text();
+	
+   window.location = "/article/"+data1;
+});
+$('.page-item').on("click", function() {
+ var currentrow =	$(this).eq(0).html();
+ var data = $(this).first(0).text();
+ console.log(data);
+   window.location = "/"+data;
+});
+</script>
