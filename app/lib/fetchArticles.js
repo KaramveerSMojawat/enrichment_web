@@ -1,11 +1,11 @@
 const fs = require('fs');
-const constants = require(__dirname + '/constants');
 //directoryContents would return an array of file-names inside provided directory 
-//Fetch articles from one file 
+//Fetch articles from one file
+var dirName = '' 
 var fetchArticle = (fileName) =>{
+    console.log(fileName);
     try{
-
-    	var article = fs.readFileSync('./assets/data/' + fileName, 'utf-8');
+    	var article = fs.readFileSync('./'+dirName+"/" + fileName, 'utf-8');
         //split two articles of one file into an array of two and return it
         return article.split('\n');
     }catch(e){
@@ -14,12 +14,14 @@ var fetchArticle = (fileName) =>{
     }
 };
 //Fetch articles from all file
-var fetchAllArticles = (fileNameArray) =>{
+var fetchAllArticles = (dir, fileNameArray) =>{
     var articles = []; 
+    console.log(dir, " ",fileNameArray)
     try{
     	articles = fileNameArray.map((val, index) =>{
-    		return fs.readFileSync('./assets/data/' + val, 'utf-8');
+    		return fs.readFileSync(dir + "/" + val, 'utf-8');
     	})
+        dirName = dir;
     	//returns array of articles from all files in a directory
     	return articles;
     }catch(e){
@@ -27,9 +29,10 @@ var fetchAllArticles = (fileNameArray) =>{
     }
 };
 var numberOfpages = (items) =>{
+        articlePerPage = 6;
         var numPages = 0;
-        if (!Array.isArray(items) ||  !items.length  != null) {
-            numPages = Math.ceil(items.length / constants.articlePerPage);
+        if (!Array.isArray(items) ||  items.length  != null) {
+            numPages = Math.ceil(items.length / articlePerPage);
         }
         return numPages;
     };

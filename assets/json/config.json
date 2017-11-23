@@ -1,0 +1,29 @@
+{
+	"config":{
+		"workingSet":[{
+			"name":"Related Articles Simplification",
+			"dataSet":"English Run",
+			"dataSource":{
+				"type":"FOLDER",
+				"folder_path":"assets/data"
+			} 
+		},
+		{
+			"name":"Related Articles Simplification",
+			"dataSet":"Hindi Run",
+			"dataSource":{
+				"type":"FOLDER",
+				"folder_path":"assets/hindi"
+			} 
+		},
+		{
+			"name":"Related Articles Simplification",
+			"dataSet":"Malyalam Run",
+			"dataSource":{
+				"type":"FOLDER",
+				"folder_path":"assets/malyalam"
+			} 
+		}
+	]
+	}
+}

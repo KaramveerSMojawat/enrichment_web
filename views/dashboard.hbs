@@ -15,23 +15,32 @@
 		 		font-size: 30px;
   				font-weight: 200;
 			}
+			.bg{
+				background-color: #f7f7f9;;
+			}
 		</style>
 	</head>
 	<body>
-		<div class='container-fluid pt-md-2'>
-			<div class='row'>
+		<div class='container-fluid'>
+			<div class='row bg'>
 				<div class='col-md-12 text-center' >
 			 		<h4>List of Contents to verify</h4>
 				</div>
 			</div>
-			<div class='block  table-hover' border='1'>
-				{{#articleList articleLists}}{{ articleLists }}{{/articleList}}
+			<div class='container pt-md-4'>	
+				<div class='row'>
+					<div class='col-md-12 block  table-hover' border='1'>
+						{{#articleList articleLists}}{{ articleLists }}{{/articleList}}
+					</div>
+				</div>
+				
+				<nav aria-label="Page navigation example">
+  					<ul class="pagination">
+    					{{#pagingControls articleLists}}{{ articleLists }}{{/pagingControls}}
+  					</ul>
+				</nav>
+
 			</div>
-			<nav aria-label="Page navigation example">
-  				<ul class="pagination">
-    				{{#pagingControls articleLists}}{{ articleLists }}{{/pagingControls}}
-  				</ul>
-			</nav>
 		</div>
 	</body>
 </html>
@@ -42,14 +51,14 @@
 $('#mytable tr').on("click", function() {
  var currentrow=	$(this).eq(0).html();
  var data = $(this).first(0).text();
- var data1	 = $(this).find('td:first').text();
+ var data1	= $(this).find('td:first').text();
 	
-   window.location = "/article/"+data1;
+   window.location = "/articles/"+data1;
 });
 $('.page-item').on("click", function() {
  var currentrow =	$(this).eq(0).html();
  var data = $(this).first(0).text();
  console.log(data);
-   window.location = "/"+data;
+   window.location = "/dashboard/"+data;
 });
 </script>

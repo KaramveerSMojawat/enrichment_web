@@ -5,19 +5,42 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		<link rel="stylesheet" src="./views/article.css">
 		<style>
-			.block{
-				height:500px;
-			}
-			#mytable tr:hover {
+			#exampleSelect1 tr:hover {
     			cursor: pointer;
 			}
 			.header {
 		 		font-size: 30px;
   				font-weight: 200;
 			}
+			.bg{
+				background-color: #f7f7f9;;
+			}
 		</style>
 	</head>
 	<body>
-			
-	</body>
+	<div class='container-fluid'>
+		<div class='row bg'>
+			<div class='col-12 text-center'>
+  				<h1>Working Set</h1>
+  			</div>
+		</div>
+		<div class='container  pt-md-4'>
+			<div class='row  pl-md-2'>
+  				<div class='col-md-10 table-hover' border='1'>
+    				{{#workinSetList workingSet}}{{ workingSet }}{{/workinSetList}}
+  				</div>
+			</div>
+		</div>
+	</div>
 </html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+	$('#exampleSelect1 tr').on("click", function() {
+ 		var currentrow=	$(this).eq(0).html();
+ 		var name = $(this).find("td")[0].innerText;
+		var dataSet = $(this).find("td")[1].innerText;
+		var type = $(this).find("td")[2].innerText;
+		var folder_path = $(this).find("td")[3].innerText;	
+ 		window.location = "/dashboard" + "?name="+ name+"&folder-path="+folder_path;
+   	});
+</script>

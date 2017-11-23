@@ -1,4 +1,5 @@
 const helpers = require('../../app/helpers/helper');
+var commonFetchFile = require("../../app/lib/fetchArticles");
 
 module.exports = router => {
     //For particular article id
@@ -9,7 +10,7 @@ module.exports = router => {
 			//fileName contains the name of file of which article is going to get shown in article page
 			fileName = request.params.id;
 			//articleArray calls the result of fetchArticle() 
-    		articleArray = fetchArticle(fileName).map((val, index) =>{
+    		articleArray = commonFetchFile.fetchArticle(fileName).map((val, index) =>{
     			return JSON.parse(val);
     		})
     		helpers.listArticleAlgo1();
@@ -29,7 +30,6 @@ module.exports = router => {
     				articleRelatedArticle: articleArray[1].relarticles
     			}
     		});
-		pagingControls(numberOfpages);
     });
       //For all articles
     router

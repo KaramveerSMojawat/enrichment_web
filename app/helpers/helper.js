@@ -1,6 +1,6 @@
 const hbs = require('hbs');
 listArticleAlgo1 = () => {
-	 hbs.registerHelper('listArticleAlgo1', function(items, options) { 
+	 hbs.registerHelper('listArticleAlgo1', function(items) { 
   		var out = "<div class='f21'>";
   		for(var i=0, l=items.length; i<l; i++) {
 	   		out = out  
@@ -19,7 +19,7 @@ listArticleAlgo1 = () => {
 	});
 }
 listArticleAlgo2 = () => {
-	 hbs.registerHelper('listArticleAlgo2', function(items, options) {
+	 hbs.registerHelper('listArticleAlgo2', function(items) {
   		var out = "<div class='f21'>";
   		for(var i=0, l=items.length; i<l; i++) {
 	   		out = out  
@@ -38,7 +38,7 @@ listArticleAlgo2 = () => {
 	});
 }
 articleList = (currentPage, articlePerPage) => {
-	 hbs.registerHelper('articleList', function(items, options) {
+	 hbs.registerHelper('articleList', function(items) {
   		var out = "<table class='table' id='mytable'>";
   		console.log(currentPage);
   		for(var i=(currentPage - 1)*articlePerPage, l=Math.min(currentPage*articlePerPage, items.length); i<l; i++) {
@@ -46,25 +46,65 @@ articleList = (currentPage, articlePerPage) => {
   				break;
   			}
   			else{
-  				out = out + "<tr>"+"<td>" + items[i].aid + "</td>"+ "<td>"  + items[i].title + "</td>"+"</tr>";
+  				out = out 
+  					+ "<tr>"
+  					+   "<td>" 
+  					+     items[i].aid 
+  					+   "</td>"
+  					+   "<td>"  
+  					+     items[i].title 
+  					+   "</td>"
+  					+ "</tr>";
   			}
-    		
   		}
   		return out + "</table>";
 	});
 }
 pagingControls = (numberOfpages) => {
-	hbs.registerHelper('pagingControls', function(items, options) {
+	hbs.registerHelper('pagingControls', function(items) {
 		var out = "<table class='table' id='mytable' id='content'>";
-  		for(var i=0; i<numberOfpages(items); i++) {
-    		out = out + "<li class='page-item'><a class='page-link'>"+ (i+1) +"</a></li>";
+		console.log('I am in pagingControls ', numberOfpages(items));
+  		for(var i=0; i<numberOfpages(items); i++) {		
+    		out = out 
+    			+ "<li class='page-item'>"
+    			+	"<a class='page-link'>"
+    			+ 		(i+1) 
+    			+	"</a>"
+    			+ "</li>";
   		}
   		return out + "</table>";
 	});
 }
+             
+workinSetList = () => {
+	hbs.registerHelper('workinSetList', function(items) {
+		var itemName;
+		var out = "<table class='table' id='exampleSelect1'>";
+		for(var i=0; i<items.length; i++){
+  				out = out 
+  					+ "<tr>"
+  					+	"<td>" 
+  					+ 		items[i].name 
+  					+ 	"</td>"
+  					+ 	"<td>"  
+  					+ 		items[i].dataSet 
+  					+ 	"</td>"
+  					+ 	"<td>"  
+  					+ 		items[i].dataSource.type 
+  					+ 	"</td>" 
+  					+ 	"<td>" 
+  					+ 		items[i].dataSource.folder_path 
+  					+ 	"</td>" 
+  					+ "</tr>";
+  		}
+  		return out + "</table>";
+	});
+}	
+
 module.exports = {
 	listArticleAlgo1,
 	listArticleAlgo2,
 	articleList,
-	pagingControls
+	pagingControls,
+	workinSetList
 }
