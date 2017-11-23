@@ -43,7 +43,6 @@ module.exports = router => {
                 return {aid: JSON.parse(file.split("\n")[0]).article.aid, title: JSON.parse(file.split("\n")[0]).article.title};
             });
             helpers.pagingControls(commonFetchFile.numberOfpages);
-            
             response.render('dashboard.hbs', {
                 articleLists: titles
             });
