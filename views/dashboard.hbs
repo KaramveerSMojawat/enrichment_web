@@ -3,7 +3,9 @@
 <head>
 	<title> Dashboard </title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-	<link rel="stylesheet" src="./views/article.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 	<style>
 			.block{
 				height:500px;
@@ -12,19 +14,32 @@
     			cursor: pointer;
 			}
 			.header {
-		 		font-size: 30px;
-  				font-weight: 200;
+				letter-spacing: 1px;
+		 		height: 80px;
 			}
 			.bg{
 				background-color: #f7f7f9;;
+			}
+			.button{
+				position: absolute;
+				top:1%;
+				left: 1%;
+				z-index: 1000;
+				font-weight: bold;
+				letter-spacing: 1px;
+				padding:10px 20px;
+				border-radius: 10px;
+				outline: none;
+				text-decoration: none;
+				box-shadow: 0px 3px 8px #5f2bla;
 			}
 		</style>
 	</head>
 	<body>
 		<div class='container-fluid'>
-			<div class='row bg'>
-				<div class='col-md-12 text-center' >
-			 		<h4>List of Contents to verify</h4>
+			<div class='row bg header'>
+				<div class='col-md-12 text-center align-self-center' >
+			 		<h2>Enlistd {{header}} To Verify</h2>
 				</div>
 			</div>
 			<div class='container pt-md-4'>	
@@ -33,32 +48,131 @@
 						{{#articleList articleLists}}{{ articleLists }}{{/articleList}}
 					</div>
 				</div>
-				
 				<nav aria-label="Page navigation example">
   					<ul class="pagination">
     					{{#pagingControls articleLists}}{{ articleLists }}{{/pagingControls}}
   					</ul>
 				</nav>
-
 			</div>
 		</div>
+		<!-- Button trigger modal -->
+</div>
+<div class="modal fade" id="addFeedbackModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Give Feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form>
+  			<fieldset >
+			    <div class="form-group">
+			      <label for="disabledSelect">Disabled select menu</label>
+			      <select id="disabledSelect" class="form-control">
+			        <option>Feedback select</option>
+			      </select>
+			    </div>
+			    <div class="form-group">
+			      <label for="disabledTextInput">Comment</label>
+			      <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
+			    </div>
+			    <div class="checkbox">
+			      <label>
+			        <input type="checkbox"> Can't check this
+			      </label>
+			    </div>
+			    <button type="submit" class="btn btn-primary">Submit</button>
+			  </fieldset>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Feedbacks</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        A four-storey building collapsed in Bhiwandi in the district on Friday, leaving an 18-year-old woman dead and five others injured, officials said. More are suspected to be dead.
+		At least 20 other people are feared trapped under the debris of the building in Navi Vasti locality, according to Asmita Nikam, District Disaster Management Control Officer.
+		The collapse occurred around 9 am, Regional Disaster Management Cell chief Santosh Kadam told reporters here.
+		"Body of Ruksana Khan was pulled out from the debris and five others were rescued and admitted to the state-run Indira Gandhi Memorial Hospital here," Nikam said.
+		Nikam also said that the National Disaster Response Force (NDRF) teams have started rescue and relief operation along with fire-brigade personnel from Bhiwandi, Thane, Navi Mumbai and Kalyan civic bodies.
+		A four-storey building collapsed in Bhiwandi in the district on Friday, leaving an 18-year-old woman dead and five others injured, officials said. More are suspected to be dead.
+		At least 20 other people are feared trapped under the debris of the building in Navi Vasti locality, according to Asmita Nikam, District Disaster Management Control Officer.
+		The collapse occurred around 9 am, Regional Disaster Management Cell chief Santosh Kadam told reporters here.
+		"Body of Ruksana Khan was pulled out from the debris and five others were rescued and admitted to the state-run Indira Gandhi Memorial Hospital here," Nikam said.
+		Nikam also said that the National Disaster Response Force (NDRF) teams have started rescue and relief operation along with fire-brigade personnel from Bhiwandi, Thane, Navi Mumbai and Kalyan civic bodies.
+		A four-storey building collapsed in Bhiwandi in the district on Friday, leaving an 18-year-old woman dead and five others injured, officials said. More are suspected to be dead.
+		At least 20 other people are feared trapped under the debris of the building in Navi Vasti locality, according to Asmita Nikam, District Disaster Management Control Officer.
+		The collapse occurred around 9 am, Regional Disaster Management Cell chief Santosh Kadam told reporters here.
+		"Body of Ruksana Khan was pulled out from the debris and five others were rescued and admitted to the state-run Indira Gandhi Memorial Hospital here," Nikam said.
+		Nikam also said that the National Disaster Response Force (NDRF) teams have started rescue and relief operation along with fire-brigade personnel from Bhiwandi, Thane, Navi Mumbai and Kalyan civic bodies.
+		A four-storey building collapsed in Bhiwandi in the district on Friday, leaving an 18-year-old woman dead and five others injured, officials said. More are suspected to be dead.
+		At least 20 other people are feared trapped under the debris of the building in Navi Vasti locality, according to Asmita Nikam, District Disaster Management Control Officer.
+		The collapse occurred around 9 am, Regional Disaster Management Cell chief Santosh Kadam told reporters here.
+		"Body of Ruksana Khan was pulled out from the debris and five others were rescued and admitted to the state-run Indira Gandhi Memorial Hospital here," Nikam said.
+		Nikam also said that the National Disaster Response Force (NDRF) teams have started rescue and relief operation along with fire-brigade personnel from Bhiwandi, Thane, Navi Mumbai and Kalyan civic bodies.
+		A four-storey building collapsed in Bhiwandi in the district on Friday, leaving an 18-year-old woman dead and five others injured, officials said. More are suspected to be dead.
+		At least 20 other people are feared trapped under the debris of the building in Navi Vasti locality, according to Asmita Nikam, District Disaster Management Control Officer.
+		The collapse occurred around 9 am, Regional Disaster Management Cell chief Santosh Kadam told reporters here.
+		"Body of Ruksana Khan was pulled out from the debris and five others were rescued and admitted to the state-run Indira Gandhi Memorial Hospital here," Nikam said.
+		Nikam also said that the National Disaster Response Force (NDRF) teams have started rescue and relief operation along with fire-brigade personnel from Bhiwandi, Thane, Navi Mumbai and Kalyan civic bodies.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+  </div>
+		<a class=' btn-success button' href='/'> Back To Home </a>
 	</body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-
-$('#mytable tr').on("click", function() {
- var currentrow=	$(this).eq(0).html();
- var data = $(this).first(0).text();
- var data1	= $(this).find('td:first').text();
-	
-   window.location = "/articles/"+data1;
+//var currentrow=	$(this).eq(0).html();
+ $(`#mytable td`).on("click", function() {
+ 	var currentrow=	$(this).eq(0).html();
+ 	var data = $(this).first(0).text();
+ 	var data1	= $(this).find('td:first').text();
+	var id = $(this).first(0).attr("id");   	
+   	if(id !== undefined){
+   		window.location = "/articles/" + data;	
+   	}
 });
+ $(`#mytable td`).hover(function() {
+ 	var currentrow=	$(this).eq(0).html();
+ 	var data = $(this).first(0).text();
+ 	var data1	= $(this).find('td:first').text();
+	var id = $(this).first(0).attr("id");   	
+   	if(id !== undefined){
+   		$('#'+id).hover(function() {
+        	$('.statecontent').hide();
+        	$('.' + $(this).val()).show();    
+    	});	
+   	}
+});
+
 $('.page-item').on("click", function() {
- var currentrow =	$(this).eq(0).html();
- var data = $(this).first(0).text();
- console.log(data);
-   window.location = "/dashboard/"+data;
+ 	var currentrow =	$(this).eq(0).html();
+ 	var data = $(this).first(0).text();
+   	window.location = "/dashboard/data/" + data;
 });
 </script>

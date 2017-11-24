@@ -7,6 +7,7 @@ module.exports = router => {
         .route("/:id")
         .get((request, response) => {
 			var articleArray = [];
+            var feedbackSelection = ['yes','no'];
 			//fileName contains the name of file of which article is going to get shown in article page
 			fileName = request.params.id;
 			//articleArray calls the result of fetchArticle() 
@@ -28,7 +29,8 @@ module.exports = router => {
     				articleText: articleArray[1].article.text,
     				articleTitle: articleArray[1].article.title,
     				articleRelatedArticle: articleArray[1].relarticles
-    			}
+    			},
+                feedSelect: feedbackSelection
     		});
     });
       //For all articles

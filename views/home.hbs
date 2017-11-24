@@ -30,6 +30,11 @@
     				{{#workinSetList workingSet}}{{ workingSet }}{{/workinSetList}}
   				</div>
 			</div>
+			<nav aria-label="Page navigation example">
+  				<ul class="pagination">
+    				{{#pagingControls workingSet}}{{ workingSet }}{{/pagingControls}}
+  				</ul>
+			</nav>
 		</div>
 	</div>
 </html>
@@ -37,10 +42,11 @@
 <script>
 	$('#exampleSelect1 tr').on("click", function() {
  		var currentrow=	$(this).eq(0).html();
- 		var name = $(this).find("td")[0].innerText;
-		var dataSet = $(this).find("td")[1].innerText;
+ 		var name = (($(this).find("td")[0].innerText).split(" ")).join("-");
+ 		console.log(name);
+		var dataSet = (($(this).find("td")[1].innerText).split(" ")).join("-");
 		var type = $(this).find("td")[2].innerText;
 		var folder_path = $(this).find("td")[3].innerText;	
- 		window.location = "/dashboard" + "?name="+ name+"&folder-path="+folder_path;
+ 		window.location = "/dashboard/" + name + "?name="+ dataSet + "&folder-path="+folder_path;
    	});
 </script>

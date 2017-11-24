@@ -1,8 +1,8 @@
 var commonFetchFile = require("../../app/lib/fetchArticles");
 const helpers = require('../../app/helpers/helper');
-const constants = require('../../app/lib/constants');
 var directoryContent=''
-
+var heading = ''
+var data = ''
 /*mordule.exports =*/
 
 module.exports = router => {
@@ -11,7 +11,7 @@ module.exports = router => {
 
     //For particular article id
     router
-        .route("/:id")
+        .route("/data/:id")
         .get((request, response) => {
             var articleArray = [];
             //articleArray calls the result of fetchAllArticle()
@@ -24,16 +24,17 @@ module.exports = router => {
                 return {aid: JSON.parse(file.split("\n")[0]).article.aid, title: JSON.parse(file.split("\n")[0]).article.title};
             });
             response.render('dashboard.hbs', {
-                articleLists: titles
+                articleLists: titles,
+                header: heading
             });
         })
       //For all articles
     router
-        .route("/")
+        .route("/:data")
         .get((request, response) => {
             console.log('hello');
             directoryContent = request.query["folder-path"] 
-            console.log(request.query["name"]);
+            heading = ((request.query["name"]).split("-")).join(" ");
             console.log(request.query["folder-path"]);
             var articleArray = [];
             //articleArray calls the result of fetchAllArticle()
@@ -44,7 +45,8 @@ module.exports = router => {
             });
             helpers.pagingControls(commonFetchFile.numberOfpages);
             response.render('dashboard.hbs', {
-                articleLists: titles
+                articleLists: titles,
+                header: heading
             });
         })
 };
