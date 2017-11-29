@@ -1,9 +1,10 @@
+//This JS file is for storing some usually used data fetching files from directory
 const fs = require('fs');
 //directoryContents would return an array of file-names inside provided directory 
 //Fetch articles from one file
 var dirName = '' 
+var workingSetId = '';
 var fetchArticle = (fileName) =>{
-    console.log(fileName);
     try{
     	var article = fs.readFileSync('./'+dirName+"/" + fileName, 'utf-8');
         //split two articles of one file into an array of two and return it
@@ -14,31 +15,27 @@ var fetchArticle = (fileName) =>{
     }
 };
 //Fetch articles from all file
-var fetchAllArticles = (dir, fileNameArray) =>{
-    var articles = []; 
-    console.log(dir, " ",fileNameArray)
-    try{
-    	articles = fileNameArray.map((val, index) =>{
-    		return fs.readFileSync(dir + "/" + val, 'utf-8');
-    	})
-        dirName = dir;
-    	//returns array of articles from all files in a directory
-    	return articles;
-    }catch(e){
-        return e;
-    }
+var fetchDirectory = (dir) =>{
+    dirName = dir;
+};
+var getworkingSetId = () =>{
+    return workingSetId;
+};
+var setworkingSetId = (id) =>{
+    workingSetId = id;
 };
 var numberOfpages = (items) =>{
-        articlePerPage = 6;
-        var numPages = 0;
-        if (!Array.isArray(items) ||  items.length  != null) {
-            numPages = Math.ceil(items.length / articlePerPage);
-        }
-        return numPages;
-    };
-
+    articlePerPage = 6;
+    var numPages = 0;
+    if (!Array.isArray(items) ||  items.length  != null) {
+        numPages = Math.ceil(items.length / articlePerPage);
+    }
+    return numPages;
+};
 module.exports = {
     fetchArticle,
-    fetchAllArticles,
-    numberOfpages
+    fetchDirectory,
+    numberOfpages,
+    setworkingSetId,
+    getworkingSetId
 }

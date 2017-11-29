@@ -108,8 +108,6 @@ module.exports = function(app) {
     		}
     	});
     		
-	});
-	
-	
+	});	
 	pagingControls(numberOfpages);
 }

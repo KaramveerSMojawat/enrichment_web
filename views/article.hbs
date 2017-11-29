@@ -3,10 +3,7 @@
 <head>
 	<title> Dashboard </title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-	<link rel="stylesheet" src="./views/article.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 	<style>
 		body {
 		  	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;	
@@ -29,8 +26,10 @@
   		ul{
   			list-style: none
   		}
+  		.floating-position{
+  			position: absolute;
+  		}
   		.button{
-			position: absolute;
 			top:1%;
 			left: 1%;
 			z-index: 1000;
@@ -46,64 +45,271 @@
 			width:100%;
 			margin-top: 10px;
 		}
-		.bg{
-			background-color: #f7f7f9;
+		.bgHeader{
+			background-image: linear-gradient(to left, rgb(218, 210, 153), rgb(176, 218, 185));	
 		}
+		.disable{
+			opacity:0.4;
+		}
+
+		.active{
+			background-color:#42C0FB;
+		}
+		.input-disabled{
+			color:red;
+			text-transform:uppercase;
+			background-color:white;
+			border:0;
+		}	
 	</style>
 </head>
-<body>
+	<body>
 	<div class='container-fluid pt-md-5'>
-			<table class='table table-responsive' id="mytable">
-				<thead>
-					<tr class='bg'> 
-					<td>
-						<p class='heading text-center'>Algorithm 1</p>
-					</td>
-					<td>
-						<p class='heading text-center'>Algorithm 2</p>
-					</td> 
-				</tr>
-				</thead>
+		<div class='container-fluid pt-md-5'>
+			<div class="card">
+  				<div class="card-header">
+  					<div class='row'>
+						<div class="col-md-4" id={{article1.articleId}}>
+				   			<h5 class="card-subtitle mb-2 text-muted align-self-center articleId">{{article1.articleId}}</h5>
+						</div>
+						<div class="col-md-8">
+							<h5 class="card-subtitle mb-2 text-muted align-self-center"> {{article1.articleTitle}} </h5>
+						</div>
+					</div>
+  				</div>
+  				<div class="card-block">
+			    	<p class="card-text">{{article1.articleText}}</p>
+  				</div>
+				<span class='invisible' id='workingSetID'>{{workingSetId}}</span>
+			</div>
+		</div>
+		<div class='container-fluid pt-md-5 ml-md-4'>
+			<table class='table' id="mytable">
 				<tbody>
-				<tr >
-					<td >
-    					<h4 class=' text-justify card-title'>{{article1.articleTitle}}</h4>
-    				</td>
-					<td >
-						<h4 class=' text-justify card-title'> {{article2.articleTitle}} </h4>
-					</td>
-				</tr>
-				<tr >
-					<td >
-						<p class='f21 text-justify'>{{article1.articleId}}</p>
-    				</td>
-    				<td >
-    					<p class='f21 text-justify'>{{article2.articleId}}</p>
-    				</td>
-				</tr>
-				<tr >
-					<td >
-						<p class='f21 text-justify card-text'>{{article1.articleText}}</p>
-					</td>
-    				<td >
-    					<p class='f21 text-justify card-text'>{{article2.articleText}}</p>
-    				</td>
-				</tr>
-				<tr class='bg'>
-					<td>
-						{{#listArticleAlgo1 article1.articleRelatedArticle}}{{article1.articleRelatedArticle}}{{/listArticleAlgo1}}
-					</td>
-    				<td>
-    					{{#listArticleAlgo2 article2.articleRelatedArticle}}{{article2.articleRelatedArticle}}{{/listArticleAlgo2}}
-					</td>
-				</tr>
+					<tr class='successMsgOfAlgo1'>
+						<td><p><span class='text-success'><i class='fa fa-check' aria-hidden='true'></i>  Successfully submited</span></p></td>
+					</tr>
+					<tr class='bgHeader'>
+						<td class='text-center'>
+							<h4> Algorithm 1 </h4>
+						</td>
+					</tr>
+					<tr class='bg mt-md-5'>
+						<td>
+							{{#listArticleAlgo1 article1.articleRelatedArticle}}{{article1.articleRelatedArticle}}{{/listArticleAlgo1}}
+						</td>
+					</tr>
+					<tr class='bg'>
+						<td class='text-center'>
+							<button type='button' id='algo1FeedbackSubmit' class=' button'> Submit </button>
+						</td>
+					</tr>
+					<tr class='successMsgOfAlgo2'>
+						<td><p><span class='text-success'><i class='fa fa-check' aria-hidden='true'></i>  Successfully submited</span></p></td>
+					</tr>
+					<tr class='bgHeader'>
+						<td class='text-center'>
+							<h4> Algorithm 2 </h4>
+						</td>
+					</tr>
+					<tr class='bg mt-md-5'>
+    					<td>
+    						{{#listArticleAlgo2 article2.articleRelatedArticle}}{{article2.articleRelatedArticle}}{{/listArticleAlgo2}}
+						</td>
+					</tr>
+					<tr class='bg'>
+						<td class='text-center'>
+							<button type='button' id='algo2FeedbackSubmit' class='button'> Submit </button>
+						</td>
+					</tr>
 				</tbody>
 			</table>
-
+		</div>
+		<div class='row'>
+			<div class='col-md-12 text-center'>
+				
+			</div>
+		</div>
 	</div>
-	<a class=' btn-success button' href='/dashboard/data/1'> Back To Dashboard </a>
-</body>
+		<button type="button" class=' btn btn-info button floating-position' id='backToDashboard'> Back To Dashboard </button>
+	</body>
 </html>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+	var oldAlgoUncheckedBoxes = [];
+	var newAlgoUncheckedBoxes = [];
+	var newAlgocheckedBoxes = [];
+	var oldAlgocheckedkBoxes = [];
+	var newAlgoTest = new RegExp('^new');
+	var oldAlgoTest = new RegExp('^old');
+	var workingSetId = '';
+	$("#backToDashboard").on("click", function(){
+		var wid = $.trim(workingSetId);
+		window.location = "/workingsets/" + wid + "?page-no=1";	
+	})
+	
+	function ajaxCalls(articleId, data1, idForButton){
+		$.ajax({
+     		url: '/feedback/' + articleId,
+	    	type: 'PUT',
+			contentType: "application/json",
+  			data: JSON.stringify(data1),
+ 			success: function(result){
+				if(result === 'success'){
+					if(idForButton === '#algo1FeedbackSubmit'){
+						$('.successMsgOfAlgo1').show();
+						$('#algo1FeedbackSubmit').hide();
+						$('.textarea1').addClass('input-disabled');
+						$('.textarea1').prop('readonly', true);
+						$('.old:not(:checked)').attr('disabled', true);
+					}
+					if(idForButton === '#algo2FeedbackSubmit'){
+						$('#algo2FeedbackSubmit').hide();
+						$('.textarea2').addClass('input-disabled');
+						$('.successMsgOfAlgo2').show();
+						$('.new:not(:checked)').attr('disabled', true);
+						$('.textarea2').prop('readonly', true);
+					}
+				}	
+			},
+			error: function(error) {
+    			console.log('Error: ' + error.message);
+    		}
+    	});
+	}
+	(function($){
+		if($( "#algo1StatusReview" ).hasClass("completedReviewForAlgo1")){
+			$('.successMsgOfAlgo1').show();
+			$('#algo1FeedbackSubmit').hide();
+			$('.textarea1').prop('readonly', true);
+			$('.textarea1').addClass('input-disabled');
+			$('.old:not(:checked)').attr('disabled', true);
+		}else if($("#algo1StatusReview" ).hasClass("notCompletedAlgo1Review")){
+			if(oldAlgocheckedkBoxes.length === 0 || oldAlgocheckedkBoxes.length < Math.ceil((oldAlgoUncheckedBoxes.length)/2)){
+				$('#algo1FeedbackSubmit').prop('textContent', 'Give feedback for Algo1');
+				$('#algo1FeedbackSubmit').prop('disabled', true);
+			}
+			$('.successMsgOfAlgo1').hide();
+		}
+	})(jQuery);
 
+	(function($){
+		if($( "#algo2StatusReview" ).hasClass("completedReviewForAlgo2")){
+			$('.successMsgOfAlgo2').show();
+			$('#algo2FeedbackSubmit').hide();
+			$('.textarea2').prop('readonly', true);
+			$('.textarea2').addClass('input-disabled');
+			$('.new:not(:checked)').attr('disabled', true);
+		}else if($( "#algo2StatusReview" ).hasClass("notCompletedAlgo2Review")){
+			if(newAlgocheckedBoxes.length === 0 || newAlgocheckedBoxes.length < Math.ceil((newAlgoUncheckedBoxes.length)/2)){
+				$('#algo2FeedbackSubmit').prop('textContent', 'Give feedback for Algo2');
+				$('#algo2FeedbackSubmit').prop('disabled', true);
+			}
+			$('.successMsgOfAlgo2').hide();
+		}
+	})(jQuery);
+
+	$(document).ready(function(){
+		var emptyArray = [];
+		workingSetId = $('#workingSetID').first(0).text();
+		var rad = $('.form-check-input:not(":checked")');
+		for(i = 0; i<rad.length; i++ ){
+			emptyArray.push(rad[i].name)
+		} 
+		oldAlgoUncheckedBoxes = emptyArray.filter((article) => {
+				if(oldAlgoTest.test(article)){
+				return article;
+			}
+		})
+		newAlgoUncheckedBoxes = emptyArray.filter((article) => {
+			if(newAlgoTest.test(article)){
+				return article;
+			}
+		})
+	});
+	
+	$('.form-check-input').on('change', function() {	 
+		if($(this).is(":checked")){
+	        if(oldAlgocheckedkBoxes.length === 0){
+	        	if(oldAlgoTest.test($(this)[0].name)){
+	        		oldAlgocheckedkBoxes.push($(this)[0].name);
+	        	}
+	        }else if(oldAlgocheckedkBoxes.length !== 0){
+	        	if(oldAlgoTest.test($(this)[0].name)){
+	        		var duplicate = oldAlgocheckedkBoxes.filter( article => article === $(this)[0].name);
+    				if(duplicate.length === 0){
+        				oldAlgocheckedkBoxes.push($(this)[0].name);
+    				}
+	        	}
+	        }
+	        if(newAlgocheckedBoxes.length === 0){
+	        	if(newAlgoTest.test($(this)[0].name)){
+	        		newAlgocheckedBoxes.push($(this)[0].name);
+	        	}
+	    	}else if(newAlgocheckedBoxes.length !== 0){
+	        	if(newAlgoTest.test($(this)[0].name)){
+	        		var duplicate = newAlgocheckedBoxes.filter( article => article === $(this)[0].name);
+    				if(duplicate.length === 0){
+        				newAlgocheckedBoxes.push($(this)[0].name);
+    				}
+	        	}
+	    	}
+	    }
+	    if(oldAlgocheckedkBoxes.length >= Math.ceil((oldAlgoUncheckedBoxes.length)/2)){
+			$('#algo1FeedbackSubmit').prop('textContent', 'Submit feedback for Algo1')
+			$('#algo1FeedbackSubmit').prop('disabled', false);
+			$('#algo1FeedbackSubmit').removeClass('disable');
+			$('#algo1FeedbackSubmit').addClass('active');	
+		}
+		if(newAlgocheckedBoxes.length >= Math.ceil((newAlgoUncheckedBoxes.length)/2)){
+			$('#algo2FeedbackSubmit').prop('textContent', 'Submit feedback for Algo2')
+			$('#algo2FeedbackSubmit').prop('disabled', false);
+			$('#algo2FeedbackSubmit').removeClass('disable');
+			$('#algo2FeedbackSubmit').addClass('active');	
+		}
+	});
+	
+	$('#algo1FeedbackSubmit').on('click', function(){
+	    var feedback = '';
+        var text = '';
+        var arrayOfFeedback = [];
+        var refArticleId = '';
+        var articleId = $('div .articleId').first(0).text(); //fetched from card footer
+        var algorithmName =	'Algorithm 1';
+		
+		for(var i=0; i<oldAlgocheckedkBoxes.length; i++){
+		feedback = $(`input[name='${oldAlgocheckedkBoxes[i]}']:checked`).val();
+    		text = $(`#${oldAlgocheckedkBoxes[i]}textArea`).val();
+    		refArticleId = oldAlgocheckedkBoxes[i];
+    		arrayOfFeedback.push({"feedback":feedback,
+    							"workingSetId":$.trim(workingSetId),
+    							"text":text,
+    							"articleId":articleId,
+    							"algorithm":algorithmName,  
+    							"refArticleId":refArticleId 
+    						});
+		}
+		ajaxCalls(articleId, arrayOfFeedback, '#algo1FeedbackSubmit');
+	});
+
+	$('#algo2FeedbackSubmit').on('click', function(){
+        var feedback = '';
+        var text = '';
+        var textArray = [];
+        var arrayOfFeedback = [];
+        var articleId = $('div .articleId').first(0).text(); //fetched from card footer
+        var algorithmName =	'Algorithm 2';	
+		for(var i=0; i<newAlgocheckedBoxes.length; i++){
+			feedback = $(`input[name='${newAlgocheckedBoxes[i]}']:checked`).val();
+    		text = $(`#${newAlgocheckedBoxes[i]}textArea`).val();
+    		arrayOfFeedback.push({"feedback":feedback,
+    							"workingSetId":$.trim(workingSetId),
+    							"text":text,
+    							"articleId":articleId,
+    							"algorithm":algorithmName,  
+    							"refArticleId":newAlgocheckedBoxes[i], 
+    						});
+   	}
+		ajaxCalls(articleId, arrayOfFeedback,'#algo2FeedbackSubmit');
+	});
+</script>

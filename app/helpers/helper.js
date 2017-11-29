@@ -1,134 +1,166 @@
 const hbs = require('hbs');
-listArticleAlgo1 = () => {
-	 hbs.registerHelper('listArticleAlgo1', function(items) { 
-  		var out = "<div class='f21'>";
-      var a = "old"
-  		for(var i=0, l=items.length; i<l; i++) {
-	   		out = out  
-	   				+ "<div class='card mb-md-2'>"
-	   				+	"<div class='card-header'>" 
-	   				+ 		"<h6 class='card-subtitle mb-2 text-muted '>" +  items[i].aid + "</h6>"
-	   				+	"</div>"
-	   				+ 	"<div class='card-block'>"  
-	   				+ 		"<h4 class=' card-title'>" + items[i].title + "</h4>" 
-	   				+   	"<p class='card-text'>" + items[i].text + "</p>" 
-	   				+  		"<p class='card-text'>" + items[i].score + "</p>"
-	   				+ 	 "</div>"
-            +    "<p class='text-center'>"
-            +      `<a class='btn btn-primary' data-toggle='collapse' href='#${a+items[i].aid}' aria-expanded='false' aria-controls='${a+items[i].aid}'>`
-            +        "Add Your Feedback"
-            +      "</a>"
-            +    "</p>"
-            +    `<div class='collapse' id='${a+items[i].aid}'>`
-            +      "<div class='card card-body'>"
-            +        "<form>"
-            +            "<fieldset pl-md-2 pr-md-2>"
-            +              "<div class='form-group'>"
-            +                  "<select id='disabledSelect' class='form-control'>"
-            +                    "<option>Feedback select</option>"
-            +                  "</select>"
-            +                "</div>"
-            +                "<div class='form-group'>"
-            +                  "<input type='text' id='disabledTextInput' class='form-control' placeholder='comment'>"
-            +                "</div>"
-            +                "<button type='submit' class='btn btn-primary'>Submit</button>"
-            +              "</fieldset>"
-            +          "</form>"
-            +      "</div>"
-            +    "</div>" 
-	   				+ "</div>";
-  		}
-	  	return out + "</div>";
-	});
-}
-enlistFeedbackSelect = (data) =>{
-    console.log(data);
-   var outSetection = "<select id='disabledSelect' class='form-control'>";
-        for(var i=0, l=data.length; i<l; i++) {
-            outSetection = outSetection                  
-                          + "<option>"+ data[i] +"</option>"
+enlistFeedbackSelect = (uniqueSalt, data, feedObject) =>{
+    var outSetection = "<div class='ml-md-4'>";
+      for(var i=0, l=data.length; i<l; i++) {
+        /*if(feedObject.)*/
+        var str = '';
+        var newAlgoTest = new RegExp('^new');
+        var oldAlgoTest = new RegExp('^old');
+        var radioIdentifierClass = ''
+        if(feedObject.feedback === data[i]){
+          str = 'checked'
+        }else if(feedObject.feedback === undefined){
+          str = '';
+        } 
+        if(oldAlgoTest.test(uniqueSalt)){
+          radioIdentifierClass = 'old'
+        }else if(newAlgoTest.test(uniqueSalt)){
+          radioIdentifierClass = 'new'
         }
-        return outSetection +"</select>"  
+        outSetection = outSetection                  
+                  + "<div id='radioForm' class='form-check form-check-inline'>"
+                  +    "<label class='form-check-label text-center'>"
+                  +      `<input class='form-check-input ${radioIdentifierClass}' type='radio' name='${uniqueSalt}' id='${uniqueSalt}' value='${data[i]}' ${str}> `
+                  +        data[i]
+                  +    "</label>"
+                  +  "</div>" 
+      }
+      return outSetection +"</div>"  
 }
-listArticleAlgo2 = () => {
-	 hbs.registerHelper('listArticleAlgo2', function(items, options) {
-      console.log( "-----", options.data.root.feedSelect, "-----");
-  		var out = "<div class='f21'>";
+listArticleAlgo1 = (str, feededArray) => {
+   hbs.registerHelper('listArticleAlgo1', function(items,options) { 
+ var out = `<div id='algo1StatusReview' class='${str} card mb-md-2'`;     
+      var a = "old";
+      var obj = {}
+      for(var i=0, l=items.length; i<l; i++) {
+          if(feededArray.length > 0){
+            feededArray.forEach(val => {
+              if(feededArray.length !== 0){
+                if(val.refid === (a+items[i].aid)){
+                   if(val.comment === '' || val.comment === undefined){
+                      obj = {"comment": '', "feedback": val.feedback};
+                   }else{
+                    obj = {"comment": val.comment, "feedback": val.feedback};
+                   }
+                }  
+              }
+            })
+          }else if(feededArray.length === 0){
+            obj = {"comment": '', "feedback": ''};
+          }
+        out = out  
+          + "<div class='card mb-md-2'>"
+          + "<div class='card-header'>" 
+          +  "<div class='row'>"
+          +     "<div class='col-md-3'>"   
+          +       `<h6 class='card-subtitle mb-2 text-muted align-self-center text-left' id='${items[i].aid}'>` +  items[i].aid + `</h6>`
+          +     "</div>"
+          +     "<div class='col-md-6'>"   
+          +       "<h6 class='card-subtitle mb-2 text-muted align-self-center  text-center'>" +  items[i].title + "</h6>"
+          +     "</div>"
+          +     "<div class='col-md-3'>"
+          +        "<h6 class='card-subtitle mb-2 text-muted align-self-center text-right'>" + items[i].score + "</h6>"
+          +     "</div>"
+          +   "</div>"
+          + "</div>"
+          +   "<div class='card-block'>"  
+          +     "<p class='card-text'>" + items[i].text + "</p>" 
+          +    "</div>"
+          +       enlistFeedbackSelect((a+items[i].aid),options.data.root.feedSelect, obj)
+          +    `<textarea class='form-control textarea1' id='${a+items[i].aid}textArea' rows='3' placeholder='COMMENT'>${obj.comment}</textarea>`
+          + "</div>"
+      }
+      return out + "</div>";
+  });
+}
+
+listArticleAlgo2 = (str, feededArray) => {
+  hbs.registerHelper('listArticleAlgo2', function(items, options) {
+  		var out = `<div id='algo2StatusReview' class=' ${str}  card mb-md-2'`;
       var a = "new"
-  		for(var i=0, l=items.length; i<l; i++) {
+  		var obj = {}
+      for(var i=0, l=items.length; i<l; i++) {
+        if(feededArray.length > 0){
+          feededArray.forEach( val => {
+            if(feededArray.length !== 0){
+                  if(val.refid === (a+items[i].aid)){
+                     if(val.comment === '' || val.comment === undefined){
+                        obj = {"comment": '', "feedback": val.feedback};
+                     }else{
+                      obj = {"comment": val.comment, "feedback": val.feedback};
+                     }
+                  }  
+                }
+          })
+        }else if(feededArray.length === 0){
+            obj = {"comment": '', "feedback": ''};
+        }
 	   		out = out  
 	   			+ "<div class='card mb-md-2'>"
 	   			+	"<div class='card-header'>" 
-	   			+ 		"<h6 class='card-subtitle mb-2 text-muted '>" +  items[i].aid + "</h6>"
+	   			+  "<div class='row'>"
+          +     "<div class='col-md-3'>"   
+          +       "<h6 class='card-subtitle mb-2 text-muted align-self-center text-left'>" +  items[i].aid + "</h6>"
+          +     "</div>"
+          +     "<div class='col-md-6'>"   
+          +       "<h6 class='card-subtitle mb-2 text-muted align-self-center text-center'>" +  items[i].title + "</h6>"
+          +     "</div>"
+          +     "<div class='col-md-3'>"
+          +        "<h6 class='card-subtitle mb-2 text-muted align-self-center text-right'>" + items[i].score + "</h6>"
+          +     "</div>"
+          +  "</div>"
 	   			+	"</div>"
 	   			+ 	"<div class='card-block'>"  
-	   			+ 		"<h4 class=' card-title'>" + items[i].title + "</h4>" 
 	   			+   	"<p class='card-text'>" + items[i].text + "</p>" 
-	   			+  		"<p class='card-text'>" + items[i].score + "</p>"
 	   			+ 	 "</div>"
-          +    "<p class='text-center'>"
-          +      `<a class='btn btn-primary' data-toggle='collapse' href='#${a+items[i].aid}' aria-expanded='false' aria-controls='${a+items[i].aid}'>`
-          +        "Add Your Feedback"
-          +      "</a>"
-          +    "</p>"
-          +    `<div class='collapse' id='${a+items[i].aid}'>`
-          +      "<div class='card card-body'>"
-          +        "<form>"
-          +            "<fieldset pl-md-2 pr-md-2>"
-          +              "<div class='form-group'>"
-          +          enlistFeedbackSelect(options.data.root.feedSelect)
-          +                "</div>"
-          +                "<div class='form-group'>"
-          +                  "<input type='text' id='disabledTextInput' class='form-control' placeholder='comment'>"
-          +                "</div>"
-          +                "<button type='submit' class='btn btn-primary text-center'>Submit</button>"
-          +              "</fieldset>"
-          +          "</form>"
-          +      "</div>"
-          +    "</div>"  
-	   			+ "</div>";
+          +       enlistFeedbackSelect((a+items[i].aid),options.data.root.feedSelect, obj)
+     		  +   "<div class='row'>"
+          +     "<div class='col-md-12'>" 
+          +       `<textarea class='form-control textarea2' id='${a+items[i].aid}textArea' rows='3' placeholder='COMMENT'>${obj.comment}</textarea>`
+          +       "</div>"
+          +     "</div>"
+          + "</div>"
   		}
   		return out + "</div>";
 	});
 }
-articleList = (currentPage, articlePerPage) => {
+articleList = (currentPage, articlePerPage, completedArticleId) => {
 	 hbs.registerHelper('articleList', function(items) {
   		var out = "<table class='table' id='mytable'>";
-  		console.log(currentPage);
-  		for(var i=(currentPage - 1)*articlePerPage, l=Math.min(currentPage*articlePerPage, items.length); i<l; i++) {
-  			if(items[i].aid === undefined){
+  	  for(var i=0, l=items.length; i<l; i++) {
+  			var statusComplete = 'feedbacknotCompleted'
+        if(items[i].aid === undefined){
   				break;
   			}
-  			else{
+       	else{
+            if(completedArticleId.length !== 0){
+              var a = 0;
+                var flag = completedArticleId.some(value =>{
+                    return value === (items[i].aid + '')  
+                })
+                if(flag === true){
+                  var statusComplete = 'feedbackCompleted'
+                }
+            }    
   				out = out 
-  					+ "<tr>"
-  					+   `<td class='btn-link' id=${items[i].aid}>` 
+  					+ `<tr id=${items[i].aid}>`
+  					+   `<td class='btn-link' id=${items[i].aid}>`
   					+     items[i].aid 
   					+   "</td>"
   					+   "<td>"  
   					+     items[i].title 
   					+   "</td>"
-            +   "<td>"
-            +    "<button type='button' class='btn btn-info' data-toggle='modal' data-target='#exampleModalLong'>"
-            +      "Show Feedbacks"
-            +    "</button>"
-            +   "</td>"
-            +   "<td>"
-            +     "<button class='btn btn-primary' data-toggle='modal' data-target='#addFeedbackModalLong'>"
-            +         "Add Feed back" 
-            +     "</button>"
-            +   "</td>" 
-  					+ "</tr>";
+            +   `<td ><p><span class='text-success ${statusComplete}'><i class='fa fa-check' aria-hidden='true'></i></span></p></td>`
+           	+ "</tr>"
   			}
   		}
   		return out + "</table>";
 	});
 }
-pagingControls = (numberOfpages) => {
+pagingControls = (numberOfpages, articles) => {
 	hbs.registerHelper('pagingControls', function(items) {
 		var out = "<table class='table' id='mytable' id='content'>";
-		console.log('I am in pagingControls ', numberOfpages(items));
-  		for(var i=0; i<numberOfpages(items); i++) {		
+			for(var i=0; i<numberOfpages(articles); i++) {		
     		out = out 
     			+ "<li class='page-item'>"
     			+	"<a class='page-link'>"
@@ -143,10 +175,12 @@ pagingControls = (numberOfpages) => {
 workinSetList = (currentPage, articlePerPage) => {
 	hbs.registerHelper('workinSetList', function(items) {
 		var itemName;
-    var out = "<table class='table' id='exampleSelect1'>";      
+    var out = `<table class='table' id='exampleSelect1'>`;      
       for(var i=(currentPage - 1)*articlePerPage, l=Math.min(currentPage*articlePerPage, items.length); i<l; i++){
           out = out 
-            + "<tr>"
+            +  `<tr id='${items[i]._doc._id}'>`
+            +  `<td id='${items[i]._doc._id}' class='invisible'>`
+            +  `</td>`
             +  "<td>" 
             +     items[i]._doc.name 
             +   "</td>"
@@ -160,10 +194,7 @@ workinSetList = (currentPage, articlePerPage) => {
             +     items[i]._doc.dataSource.folderPath 
             +   "</td>"
             + "</tr>";
-  		}
-      /*var out=items.reduce((acc,item)=>{
-        acc+=
-      },'')*/
+  	 }
   		return out + "</table>";
 	});
 }	

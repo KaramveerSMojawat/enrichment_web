@@ -5,32 +5,42 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		<link rel="stylesheet" src="./views/article.css">
 		<style>
+			body {
+			  	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;	
+  			}
 			#exampleSelect1 tr:hover {
     			cursor: pointer;
 			}
 			.header {
-		 		font-size: 30px;
-  				font-weight: 200;
+				letter-spacing: 1px;
+		 		height: 100px;
 			}
-			.bg{
-				background-color: #f7f7f9;;
+			.bgList{
+				background-color: white
 			}
+			.bgHeader{
+			background-image: linear-gradient(to left, rgb(218, 210, 153), rgb(176, 218, 185));	
+		}
 		</style>
 	</head>
 	<body>
 	<div class='container-fluid'>
-		<div class='row bg'>
+		<div class='row bgHeader'>
 			<div class='col-12 text-center'>
-  				<h1>Working Set</h1>
+  				<h2>Working Set</h2>
   			</div>
 		</div>
-		<div class='container  pt-md-4'>
-			<div class='row  pl-md-2'>
+		<!-- Working set lists  -->
+		<div class='container pt-md-5 bgList'>
+			<div class='row'>
   				<div class='col-md-10 table-hover' border='1'>
     				{{#workinSetList workingSet}}{{ workingSet }}{{/workinSetList}}
   				</div>
 			</div>
-			<nav aria-label="Page navigation example">
+		</div>
+		<!-- Pagination -->
+		<div class='container pt-md-4'>
+			<nav class='ml-md-5' aria-label="Page navigation example">
   				<ul class="pagination">
     				{{#pagingControls workingSet}}{{ workingSet }}{{/pagingControls}}
   				</ul>
@@ -41,12 +51,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 	$('#exampleSelect1 tr').on("click", function() {
- 		var currentrow=	$(this).eq(0).html();
- 		var name = (($(this).find("td")[0].innerText).split(" ")).join("-");
- 		console.log(name);
-		var dataSet = (($(this).find("td")[1].innerText).split(" ")).join("-");
-		var type = $(this).find("td")[2].innerText;
-		var folder_path = $(this).find("td")[3].innerText;	
- 		window.location = "/dashboard/" + name + "?name="+ dataSet + "&folder-path="+folder_path;
+	 		var currentrow=	$(this).eq(0).html();
+	 		var workingSetId = $(this)[0].id;
+	 		var name = (($(this).find("td")[1].innerText).split(" ")).join("-");
+			var dataSet = (($(this).find("td")[2].innerText).split(" ")).join("-");
+			var type = $(this).find("td")[3].innerText;
+			var folder_path = $(this).find("td")[4].innerText;
+			window.location = "/workingsets/" + workingSetId + "?page-no=1";
    	});
+   	$('.page-item').on("click", function() {
+ 	var currentrow = $(this).eq(0).html();
+ 	var data = $(this).first(0).text();
+ 	var workingSetId = $('#workingsetsID').first(0).text();
+   	//ajaxCallForPagination(workingSetId, data)
+   	window.location = "/"+"?page-no="+data;
+});
 </script>
